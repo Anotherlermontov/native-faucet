@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Combined Components</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/nav_bar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/use_account_identifier.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/chain_selector_row.css') }}">
+
+    <script src ="{{ url_for('static', filename='js/nav_bar.js') }}"></script>
+    <script src ="{{ url_for('static', filename='js/use_account_identifier.js') }}"></script>
+    <script src ="{{ url_for('static', filename='js/chain_selector_row.js') }}"></script>
+</head>
+<body>
+    <!-- Navbar Component -->
+    <nav class="nav">
+        <div class="nav-contents">
+            <div class="left">
+                <!-- Company Menu Placeholder -->
+                <div>Company Menu</div>
+                <!-- Tabs Placeholder -->
+                <div>Tabs</div>
+            </div>
+            <div class="row">
+                <!-- Preference Menu Placeholder -->
+                <div>Preferences</div>
+                <!-- Chain Selector Placeholder -->
+                <div id="chain-selector">
+                    <button id="chain-selector-button">
+                        <img id="chain-logo" src="" alt="Chain Logo" width="20" height="20">
+                    </button>
+                    <div id="chain-dropdown" class="dropdown-content">
+                        <div id="supported-chains"></div>
+                        <div id="unsupported-chains"></div>
+                    </div>
+                </div>
+                <!-- Web3 Status Placeholder -->
+                <div id="web3-status"></div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- NavIcon Component -->
+    <div class="container" id="nav-icon" aria-label="Navigation Button" onclick="onclickNavIcon()">
+        <!-- Icon Content -->
+        <span>Icon</span>
+    </div>
+
+    <!-- Bag Component -->
+    <div class="container" id="bag-icon" onclick="onclickBagIcon()">
+        <!-- Bag Icon Placeholder -->
+        <span>Bag Icon</span>
+        <div class="counter-dot" id="counter-dot">5</div>
+    </div>
+    <script>document.getElementById('web3-status').appendChild(Web3Status());</script>
+    <script>
+        document.getElementById('chain-selector-button').addEventListener('click', () => {
+            document.getElementById('chain-dropdown').classList.toggle('show');
+        });
+        supportedChains.forEach(chain => {
+            document.getElementById('supported-chains').appendChild(createChainRow(chain, true));
+        });
+        unsupportedChains.forEach(chain => {
+            document.getElementById('unsupported-chains').appendChild(createChainRow(chain, false));
+        });
+    </script>
+</body>
+</html>

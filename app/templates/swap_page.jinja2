@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swap Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        .page-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        .swap-wrapper {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .swap-form {
+        }
+        .active {
+            display: block;
+        }
+        .network-alert {
+            background-color: #ffdddd;
+            color: #d8000c;
+            border: 1px solid #d8000c;
+            padding: 10px;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        .switch-locale-link {
+            text-decoration: none;
+            color: #007bff;
+            margin-top: 20px;
+        }
+
+        .loading-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            justify-content: space-between;
+            padding: 8px;
+            border: 1px solid var(--surface3);
+            border-radius: 16px;
+            background-color: var(--surface1);
+        }
+
+        :root {
+            --surface1: #f0f0f0; /* Replace with your theme value */
+            --surface2: #e0e0e0; /* Replace with your theme value */
+            --surface3: #d0d0d0; /* Replace with your theme value */
+            --neutral3: #909090; /* Replace with your theme value */
+        }
+
+        .blob {
+            background-color: var(--surface2);
+            border-radius: 4px;
+            height: 56px;
+            width: 100%;
+        }
+
+        .blob[width] {
+            width: attr(width px);
+        }
+
+        .blob[radius] {
+            border-radius: attr(radius px);
+        }
+
+        .module-blob {
+            background-color: var(--surface3);
+            height: 36px;
+        }
+
+        .title-column {
+            padding: 8px;
+        }
+
+        .row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .input-column {
+            display: flex;
+            flex-flow: column;
+            background-color: var(--surface2);
+            border-radius: 16px;
+            gap: 30px;
+            padding: 48px 12px;
+        }
+
+        .output-wrapper {
+            position: relative;
+        }
+
+        .arrow-wrapper {
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            margin: 0;
+        }
+
+        .arrow-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+<div class="page-wrapper">
+    <div class="swap-wrapper" id="swap-page">
+        <div class="swap-form" id="swap-form">
+            <form>
+                <div class="loading-wrapper">
+                    <div class="title-column">
+                    <h2>Swap</h2>
+                    </div>
+                    <div class="input-column">
+                    <div class="row">
+                        <div class="module-blob" style="width: 60px;"></div>
+                        <div class="module-blob" style="width: 100px; border-radius: 16px;"></div>
+                    </div>
+                    </div>
+                    <div class="output-wrapper">
+                    <div class="arrow-wrapper">
+                        <div class="arrow-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--neutral3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-down"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+                        </div>
+                    </div>
+                    <div class="input-column">
+                        <div class="row">
+                        <div class="module-blob" style="width: 60px;"></div>
+                        <div class="module-blob" style="width: 100px; border-radius: 16px;"></div>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="blob" style="border-radius: 16px;"></div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="network-alert" id="network-alert">
+        <!-- Network alert content placeholder -->
+        <p>Network Alert Content</p>
+    </div>
+    <a href="#" class="switch-locale-link">Switch Locale</a>
+</div>
+</body>
+</html>

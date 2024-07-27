@@ -1,0 +1,73 @@
+.web3-status-generic {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    padding: 0.5rem 0.25rem;
+    border-radius: 9999px;
+    cursor: pointer;
+    user-select: none;
+    height: 36px;
+    margin-right: 2px;
+    margin-left: 2px;
+    outline: none;
+}
+
+.web3-status-connect-wrapper {
+    display: flex;
+    align-items: center;
+    background-color: var(--accent2);
+    border-radius: 9999px;
+    border: none;
+    padding: 0;
+    height: 40px;
+    color: var(--accent1);
+    transition: color 0.3s ease-in;
+}
+
+.web3-status-connect-wrapper:hover {
+    color: var(--accent1);
+    stroke: var(--accent2);
+    background-color: darken(var(--accent2), 1.5%);
+}
+
+.web3-status-connected {
+    background-color: var(--surface1);
+    border: 1px solid var(--surface1);
+    color: var(--neutral1);
+    border-radius: 9999px;
+}
+
+.web3-status-connected:hover,
+.web3-status-connected:focus {
+    border: 1px solid var(--surface2);
+    background-color: var(--surface2);
+    border: 1px solid darken(var(--surface3), 10%);
+}
+
+.address-and-chevron-container {
+    display: flex;
+    align-items: center;
+}
+
+.text {
+    flex: 1 1 auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin: 0 2px;
+    font-size: 1rem;
+    width: fit-content;
+    font-weight: 485;
+}
+
+.styled-connect-button {
+    background-color: transparent;
+    border: none;
+    border-top-left-radius: 9999px;
+    border-bottom-left-radius: 9999px;
+    cursor: pointer;
+    font-weight: 535;
+    font-size: 16px;
+    padding: 10px 12px;
+    color: inherit;
+}

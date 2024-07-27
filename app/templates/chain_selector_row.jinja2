@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chain Selector</title>
+    <style>
+        #chain-selector-button {
+            display: flex;
+            flex-direction: row;
+            padding: 10px 8px;
+            background: none;
+            gap: 4px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .dropdown-content {
+            display: none;
+            flex-direction: column;
+            width: 240px;
+            position: absolute;
+            z-index: 1;
+            background-color: white;
+            border: 1px solid #ccc;
+            padding: 8px;
+        }
+
+        .show {
+            display: flex;
+        }
+
+        #supported-chains, #unsupported-chains {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .chain-row {
+            display: grid;
+            grid-template-columns: min-content 1fr min-content;
+            align-items: center;
+            padding: 10px 8px;
+            cursor: pointer;
+        }
+
+        .chain-row.disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .chain-row:hover {
+            background-color: #f0f0f0;
+        }
+
+        .chain-row .label {
+            font-size: 16px;
+            font-weight: 485;
+        }
+
+        .chain-row .status {
+            display: flex;
+            align-items: center;
+            width: 20px;
+        }
+
+        .chain-row .caption-text {
+            font-size: 12px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div id="chain-selector">
+        <button id="chain-selector-button">
+            <img id="chain-logo" src="" alt="Chain Logo" width="20" height="20">
+        </button>
+        <div id="chain-dropdown" class="dropdown-content">
+            <div id="supported-chains"></div>
+            <div id="unsupported-chains"></div>
+        </div>
+    </div>
+    <script>
+        const NETWORK_SELECTOR_CHAINS = [1, 2, 3, 4]; // Replace with actual L1 and L2 chain IDs
+        const TESTNET_CHAIN_IDS = [5, 6]; // Replace with actual testnet chain IDs
+        const CONNECTION = {
+            UNISWAP_WALLET_CONNECT_CONNECTOR_ID: 'uniswap_wallet_connect_connector_id',
+            WALLET_CONNECT_CONNECTOR_ID: 'wallet_connect_connector_id'
+        };
+        const account = {
+            connector: { type: CONNECTION.UNISWAP_WALLET_CONNECT_CONNECTOR_ID, getNamespaceChainsIds: () => NETWORK_SELECTOR_CHAINS },
+            chainId: 1
+        };
+        const theme = { accent1: '#ff0000', neutral2: '#888888' };
+        const multichainUXEnabled = true;
+        const swapChainId = 1;
+        const chainId = multichainUXEnabled ? swapChainId : account.chainId;
+        const supportedChains = NETWORK_SELECTOR_CHAINS.filter(chain => !TESTNET_CHAIN_IDS.includes(chain));
+        const unsupportedChains = TESTNET_CHAIN_IDS; // For simplicity, assume all testnet chains are unsupported
+
+        document.getElementById('chain-selector-button').addEventListener('click', () => {
+            document.getElementById('chain-dropdown').classList.toggle('show');
+        });
+
+        function createChainRow(chain, isSupported) {
+            const row = document.createElement('div');
+            row.className = `chain-row ${isSupported ? '' : 'disabled'}`;
+            row.innerHTML = `
+                <img src="path/to/chain/logo/${chain}.png" alt="Chain Logo" width="20" height="20" style="margin-right: 12px;">
+                <div class="label">Chain ${chain}</div>
+                <div class="status">${isSupported ? '' : '<div class="caption-text">Unsupported</div>'}</div>
+            `;
+            row.addEventListener('click', () => {
+                if (isSupported) {
+                    console.log(`Selected chain: ${chain}`);
+                }
+            });
+            return row;
+        }
+
+        supportedChains.forEach(chain => {
+            document.getElementById('supported-chains').appendChild(createChainRow(chain, true));
+        });
+
+        unsupportedChains.forEach(chain => {
+            document.getElementById('unsupported-chains').appendChild(createChainRow(chain, false));
+        });
+    </script>
+</body>
+</html>

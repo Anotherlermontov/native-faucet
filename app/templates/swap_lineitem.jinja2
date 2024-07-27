@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Swap Details</title>
+  <style>
+    .details-container {
+      display: flex;
+      flex-direction: column;
+      padding: 0 12px 8px;
+      gap: 8px;
+    }
+    .styled-alert-triangle {
+      margin-right: 8px;
+      min-width: 24px;
+    }
+    .confirm-button {
+      height: 56px;
+      border: none;
+      background-color: red;
+      color: white;
+      cursor: pointer;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .dropdown-controller-wrapper {
+      display: flex;
+      align-items: center;
+      margin-right: -6px;
+      padding: 0 16px;
+      min-width: fit-content;
+      white-space: nowrap;
+    }
+    .dropdown-button {
+      padding: 0 16px;
+      margin: 4px 0;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+    .help-link {
+      width: 100%;
+      text-align: center;
+      margin: 16px 0 4px;
+    }
+    .loading-row {
+      height: 15px;
+      width: 50px;
+      background-color: #ccc;
+      margin-bottom: 8px;
+    }
+    .color-wrapper {
+      color: black;
+    }
+    .auto-badge {
+      display: flex;
+      background: #f3f3f3;
+      border-radius: 8px;
+      color: #888;
+      height: 20px;
+      padding: 0 6px;
+      align-items: center;
+    }
+    .animated-div {
+      opacity: 1;
+      transition: opacity 0.3s ease-out;
+    }
+    .animated-div.hidden {
+      opacity: 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="root">
+    <div class="details-container" id="details-container">
+      <!-- Line Items will be inserted here -->
+    </div>
+    <div id="show-accept-changes" style="display: none;">
+      <div class="row-between">
+        <div class="row-fixed">
+          <svg class="styled-alert-triangle" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M10.29 3.86L1.82 18a1 1 0 0 0 .86 1.5h18.64a1 1 0 0 0 .86-1.5l-8.47-14.14a1 1 0 0 0-1.72 0z"></path>
+            <line x1="12" y1="9" x2="12" y2="13"></line>
+            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+          </svg>
+          <span id="price-updated-text">Price Updated</span>
+        </div>
+        <button id="accept-button">Accept</button>
+      </div>
+    </div>
+    <div id="auto-row">
+      <button class="confirm-button" id="confirm-swap-button">
+        Confirm Swap
+      </button>
+      <a href="#" class="help-link" id="help-link" style="display: none;">Help Link</a>
+    </div>
+  </div>
+
+  <script>
+    const SwapLineItemType = {
+      EXCHANGE_RATE: 'EXCHANGE_RATE',
+      NETWORK_COST: 'NETWORK_COST',
+      INPUT_TOKEN_FEE_ON_TRANSFER: 'INPUT_TOKEN_FEE_ON_TRANSFER',
+      OUTPUT_TOKEN_FEE_ON_TRANSFER: 'OUTPUT_TOKEN_FEE_ON_TRANSFER',
+      PRICE_IMPACT: 'PRICE_IMPACT',
+      MAX_SLIPPAGE: 'MAX_SLIPPAGE',
+      SWAP_FEE: 'SWAP_FEE',
+      MAXIMUM_INPUT: 'MAXIMUM_INPUT',
+      MINIMUM_OUTPUT: 'MINIMUM_OUTPUT',
+      ROUTING_INFO: 'ROUTING_INFO',
+      EXPIRY: 'EXPIRY',
+    };
+
+    // Dummy data and variables
+    const isLimitTrade = false;
+    const allowance = { state: 'REQUIRED', needsSetupApproval: true };
+    const swapErrorMessage = null;
+    const isLoading = false;
+    const trade = {};
+    const allowedSlippage = 0.5;
+    const priceImpact = null;
+    const fiatValueInput = { data: 100, isLoading: false };
+    const fiatValueOutput = { data: 120, isLoading: false };
+    const routerPreference = 'API';
+    const showAcceptChanges = false;
+    const callToAction = { buttonText: 'Approve and Swap', helpLink: { text: 'Help', url: '#' } };
+
+    const detailsContainer = document.getElementById('details-container');
+    const confirmButton = document.getElementById('confirm-swap-button');
+    const helpLink = document.getElementById('help-link');
+
+    function updateUI() {
+      detailsContainer.innerHTML = `
+        ${createSwapLineItem({ type: SwapLineItemType.EXCHANGE_RATE })}
+        ${createSwapLineItem({ type: SwapLineItemType.NETWORK_COST })}
+        ${createSwapLineItem({ type: SwapLineItemType.PRICE_IMPACT })}
+        ${createSwapLineItem({ type: SwapLineItemType.MAX_SLIPPAGE })}
+        ${createSwapLineItem({ type: SwapLineItemType.SWAP_FEE })}
+        ${createSwapLineItem({ type: SwapLineItemType.MAXIMUM_INPUT })}
+        ${createSwapLineItem({ type: SwapLineItemType.MINIMUM_OUTPUT })}
+        ${createSwapLineItem({ type: SwapLineItemType.ROUTING_INFO })}
+        ${createSwapLineItem({ type: SwapLineItemType.INPUT_TOKEN_FEE_ON_TRANSFER })}
+        ${createSwapLineItem({ type: SwapLineItemType.OUTPUT_TOKEN_FEE_ON_TRANSFER })}
+        ${createSwapLineItem({ type: SwapLineItemType.EXPIRY })}
+      `;
+
+      confirmButton.innerHTML = isLoading ? '<span>Loading...</span>' : `<span>${callToAction.buttonText}</span>`;
+      if (callToAction.helpLink) {
+        helpLink.style.display = 'block';
+        helpLink.href = callToAction.helpLink.url;
+        helpLink.innerHTML = callToAction.helpLink.text;
+      } else {
+        helpLink.style.display = 'none';
+      }
+    }
+
+    function createSwapLineItem({ type }) {
+      const lineItem = useLineItem({ type });
+      if (!lineItem) {
+        return '';
+      }
+
+      return `
+        <div class="animated-div">
+          <div>${lineItem.Label}: ${lineItem.Value}</div>
+          ${lineItem.TooltipBody ? `<div>${lineItem.TooltipBody}</div>` : ''}
+        </div>
+      `;
+    }
+
+    function useLineItem({ type }) {
+      switch (type) {
+        case SwapLineItemType.EXCHANGE_RATE:
+          return {
+            Label: 'Exchange Rate',
+            Value: 'Rate Value', // Dummy value
+            TooltipBody: 'Routing Tooltip', // Dummy value
+          };
+        case SwapLineItemType.NETWORK_COST:
+          return {
+            Label: 'Network Cost',
+            TooltipBody: 'Gas Breakdown Tooltip', // Dummy value
+            Value: '<div class="loading-row"></div>', // Dummy value
+          };
+        case SwapLineItemType.PRICE_IMPACT:
+          return {
+            Label: 'Price Impact',
+            TooltipBody: 'Impact of Trade', // Dummy value
+            Value: '<span class="color-wrapper">Price Impact Value</span>',
+          };
+        case SwapLineItemType.MAX_SLIPPAGE:
+          return {
+            Label: 'Max Slippage',
+            TooltipBody: 'Max Slippage Tooltip', // Dummy value
+            Value: `<span class="auto-badge">Auto</span> ${allowedSlippage}`, // Dummy value
+          };
+        case SwapLineItemType.SWAP_FEE:
+          return {
+            Label: 'Swap Fee',
+            TooltipBody: 'Swap Fee Tooltip', // Dummy value
+            Value: 'Swap Fee Value', // Dummy value
+          };
+        case SwapLineItemType.MAXIMUM_INPUT:
+          return {
+            Label: 'Pay At Most',
+            TooltipBody: 'Max Price Slip Revert', // Dummy value
+            Value: 'Maximum Input Value', // Dummy value
+          };
+        case SwapLineItemType.MINIMUM_OUTPUT:
+          return {
+            Label: 'Receive At Least',
+            TooltipBody: 'Min Price Slip Revert', // Dummy value
+            Value: 'Minimum Output Value', // Dummy value
+          };
+        case SwapLineItemType.ROUTING_INFO:
+          return {
+            Label: 'Order Routing',
+            TooltipBody: 'Routing Tooltip', // Dummy value
+            Value: 'Router Label', // Dummy value
+          };
+        case SwapLineItemType.INPUT_TOKEN_FEE_ON_TRANSFER:
+        case SwapLineItemType.OUTPUT_TOKEN_FEE_ON_TRANSFER:
+          return getFOTLineItem({ type });
+        case SwapLineItemType.EXPIRY:
+          return {
+            Label: 'Expiry',
+            Value: 'Formatted Timestamp', // Dummy value
+          };
+      }
+    }
+
+    function getFOTLineItem({ type }) {
+      const isInput = type === SwapLineItemType.INPUT_TOKEN_FEE_ON_TRANSFER;
+      const currency = isInput ? 'Input Currency' : 'Output Currency';
+      const tax = 'Tax Value'; // Dummy value
+
+      return {
+        Label: `Named Fee (${currency})`,
+        TooltipBody: 'Token Own Fees Tooltip', // Dummy value
+        Value: `<span class="color-wrapper">${tax}</span>`,
+      };
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      updateUI();
+    });
+
+    confirmButton.addEventListener('click', () => {
+      console.log('Confirm Swap clicked');
+    });
+  </script>
+</body>
+</html>
