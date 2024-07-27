@@ -86,48 +86,17 @@
 <body>
     <div class="wrapper" data-testid="wallet-modal">
         <div class="connection-error-view"></div>
+        <div class="auto-row" style="justify-content: space-between; width: 100%;">
+            <div class="sub-header">Connect a wallet</div>
+            <button class="icon-button" data-testid="wallet-settings" onclick="openSettings()">
+                <img src="{{ url_for('static', filename='settings-icon.png') }}" alt="Settings Icon" />
+            </button>
+        </div>
         <div class="column" style="gap: 16px;">
-            <div class="column" style="gap: 16px;">
-                <div class="option-container" onclick="connectUniswapExtension()">
-                    <img src="{{ url_for('static', filename='uniswap-wallet-icon.png') }}" alt="uniswap-app-icon" class="app-icon" />
-                    <div class="row" style="gap: 8px;">
-                        <div class="text button-label">Extension</div>
-                    </div>
-                    <div class="tag-container">
-                        <div class="text detected">Detected</div>
-                    </div>
-                </div>
-                <div class="option-container" onclick="connectUniswapWalletConnect()">
-                    <div class="mobile-icon"></div>
-                    <div class="row" style="gap: 8px;">
-                        <div class="column">
-                            <div class="text button-label">Mobile Wallet</div>
-                            <div class="text body-label">Scan to Connect</div>
-                        </div>
-                    </div>
-                    <div class="tag-container">
-                        <div class="qr-code-icon"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="row" style="align-items: center; padding: 8px 0;">
-                <div class="line"></div>
-                <div class="text other-wallets">Other Wallets</div>
-                <div class="line"></div>
-            </div>
             <div class="column" style="gap: 16px; flex: 1;">
                 <div class="row" style="flex: 1; align-items: flex-start;">
                     <div class="option-grid" data-testid="option-grid">
                         <!-- Options will be dynamically populated here -->
-                    </div>
-                </div>
-                <div class="column" style="gap: 16px;">
-                    <div class="text-section-wrapper">
-                        <div class="privacy-policy-notice"></div>
-                    </div>
-                    <div class="line"></div>
-                    <div class="text-section-wrapper">
-                        <div class="text caption">Powered by Moonpay</div>
                     </div>
                 </div>
             </div>
@@ -137,16 +106,6 @@
         function openSettings() {
             // Function to open settings
             console.log("Settings opened");
-        }
-
-        function connectUniswapExtension() {
-            // Function to connect Uniswap Extension
-            console.log("Connecting to Uniswap Extension");
-        }
-
-        function connectUniswapWalletConnect() {
-            // Function to connect Uniswap Wallet Connect
-            console.log("Connecting to Uniswap Wallet Connect");
         }
 
         // Populate options dynamically if needed
