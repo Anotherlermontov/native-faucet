@@ -18,7 +18,7 @@
             gap: 16px;
         }
 
-        .option-container {
+        .option-container, .option-card-clickable {
             display: flex;
             align-items: center;
             padding: 16px;
@@ -28,9 +28,10 @@
             max-height: 72px;
             justify-content: space-between;
             cursor: pointer;
+            transition: background-color 0.3s ease;
         }
 
-        .option-container:hover {
+        .option-container:hover, .option-card-clickable:hover {
             background-color: #e0e0e0;
         }
 
@@ -81,6 +82,53 @@
             font-size: 12px;
             color: #999;
         }
+
+        .option-card-left {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        .option-card-clickable {
+            background-color: unset;
+            border: none;
+            display: flex;
+            flex: 1;
+            justify-content: space-between;
+            padding: 18px;
+            opacity: 1;
+        }
+
+        .option-card-clickable.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .header-text {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 535;
+            padding: 0 8px;
+        }
+
+        .icon-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon-wrapper img {
+            border-radius: 12px;
+        }
+
+        .recent-badge {
+            border-radius: 4px;
+            padding: 1px 4px;
+            background-color: #eef;
+            color: #00f;
+        }
     </style>
 </head>
 <body>
@@ -102,20 +150,64 @@
             </div>
         </div>
     </div>
+
     <script>
         function openSettings() {
             // Function to open settings
             console.log("Settings opened");
         }
 
+         async function connect(connectorId) {
+            if (connectorId === '1') {
+                // MetaMask connection logic
+                if (typeof window.ethereum !== 'undefined') {
+                    try {
+                        await window.ethereum.request({ method: 'eth_requestAccounts' });
+                        console.log('MetaMask connected');
+                    } catch (error) {
+                        console.error('MetaMask connection error:', error);
+                    }
+                } else {
+                    console.error('MetaMask not installed');
+                }
+            } else {
+                console.log('Connecting to wallet with connector ID:', connectorId);
+            }
+        }
+
+        function isIFramed() {
+            // Function to check if the app is iframed
+            return window.self !== window.top;
+        }
+
         // Populate options dynamically if needed
         document.addEventListener("DOMContentLoaded", function () {
             const optionGrid = document.querySelector(".option-grid");
+
             // Example of dynamically adding options
-            const exampleOption = document.createElement("div");
-            exampleOption.className = "option-container";
-            exampleOption.innerHTML = "<div>Example Option</div>";
-            optionGrid.appendChild(exampleOption);
+            const connectors = [
+                { id: '1', name: 'MetaMask', icon: '/static/images/logos/metamask-icon.svg' },
+            ];
+
+            connectors.forEach(connector => {
+                const optionWrapper = document.createElement("div");
+                optionWrapper.className = `wrapper ${isIFramed() ? 'disabled' : ''}`;
+
+                const optionCardClickable = document.createElement("button");
+                optionCardClickable.className = "option-card-clickable";
+                optionCardClickable.onclick = () => connect(connector.id);
+                optionCardClickable.innerHTML = `
+                    <div class="option-card-left">
+                        <div class="icon-wrapper">
+                            <img src="${connector.icon}" alt="${connector.name}" />
+                        </div>
+                        <div class="header-text">${connector.name}</div>
+                    </div>
+                `;
+
+                optionWrapper.appendChild(optionCardClickable);
+                optionGrid.appendChild(optionWrapper);
+            });
         });
     </script>
 </body>
