@@ -14,7 +14,7 @@ function Web3Status() {
 
     const handleWalletDropdownClick = () => {
         console.log('Wallet dropdown clicked');
-        document.getElementById('new-functionality').style.display = 'block';
+        document.getElementById('choose-wallet-wrapper').style.display = 'block';
     };
 
     const createStatusIcon = () => {

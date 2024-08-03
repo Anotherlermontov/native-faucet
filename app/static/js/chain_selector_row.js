@@ -26,10 +26,32 @@ function createChainRow(chain, isSupported) {
         <div class="label">Chain ${chain}</div>
         <div class="status">${isSupported ? '' : '<div class="caption-text">Unsupported</div>'}</div>
     `;
+
+    // Default select Ethereum chain
+    if (chain === 1 && isSupported) {
+        row.classList.add('selected');
+        console.log(`Default selected chain: ${chain}`);
+        // Set chain as default selection in your application
+        setSelectedChain(chain);
+    }
+
     row.addEventListener('click', () => {
         if (isSupported) {
             console.log(`Selected chain: ${chain}`);
+            setSelectedChain(chain);
+            document.querySelectorAll('.chain-row').forEach(row => row.classList.remove('selected'));
+            row.classList.add('selected');
         }
     });
     return row;
+}
+
+function setSelectedChain(chainId) {
+    // Store the selected chain ID globally or in the appropriate state
+    account.chainId = chainId;
+
+    // Update any necessary UI components
+    const chainLogo = document.getElementById('chain-logo');
+    chainLogo.src = `/static/images/logos/${CHAIN_ID_TO_LOGO_FILENAME[chainId]}.png`;
+    console.log(`Chain set to: ${chainId}`);
 }
