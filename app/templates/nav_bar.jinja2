@@ -120,11 +120,15 @@
             setSelectedChain(1);
         });
 
-        document.getElementById('web3-status').appendChild(Web3Status());
+        {# document.getElementById('web3-status').appendChild(Web3Status()); #}
 
         document.getElementById('chain-selector-button').addEventListener('click', () => {
             document.getElementById('chain-dropdown').classList.toggle('show');
         });
+        document.addEventListener("DOMContentLoaded", function () {
+        const web3StatusContainer = document.getElementById('web3-status');
+        web3StatusContainer.appendChild(Web3Status());
+    });
     </script>
 </body>
 </html>
