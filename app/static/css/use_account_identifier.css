@@ -30,20 +30,6 @@
     background-color: darken(var(--accent2), 1.5%);
 }
 
-.web3-status-connected {
-    background-color: var(--surface1);
-    border: 1px solid var(--surface1);
-    color: var(--neutral1);
-    border-radius: 9999px;
-}
-
-.web3-status-connected:hover,
-.web3-status-connected:focus {
-    border: 1px solid var(--surface2);
-    background-color: var(--surface2);
-    border: 1px solid darken(var(--surface3), 10%);
-}
-
 .address-and-chevron-container {
     display: flex;
     align-items: center;
@@ -70,4 +56,33 @@
     font-size: 16px;
     padding: 10px 12px;
     color: inherit;
+}
+
+.disconnect-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin-left: 8px;
+    color: inherit;
+}
+
+.web3-status-connected {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    background-color: var(--surface1);
+    border-radius: 9999px;
+    color: var(--neutral1);
+    border: 1px solid var(--surface1);
+}
+
+.web3-status-connected:hover,
+.web3-status-connected:focus {
+    background-color: var(--surface2);
+    border: 1px solid darken(var(--surface3), 10%);
 }
