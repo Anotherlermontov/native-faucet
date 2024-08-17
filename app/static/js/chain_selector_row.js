@@ -41,6 +41,8 @@ function createChainRow(chain, isSupported) {
             setSelectedChain(chain);
             document.querySelectorAll('.chain-row').forEach(row => row.classList.remove('selected'));
             row.classList.add('selected');
+
+            document.getElementById('chain-dropdown').classList.remove('show');
         }
     });
     return row;
@@ -55,3 +57,28 @@ function setSelectedChain(chainId) {
     chainLogo.src = `/static/images/logos/${CHAIN_ID_TO_LOGO_FILENAME[chainId]}.png`;
     console.log(`Chain set to: ${chainId}`);
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+    const supportedChains = NETWORK_SELECTOR_CHAINS.filter(chain => !TESTNET_CHAIN_IDS.includes(chain));
+
+    supportedChains.forEach(chain => {
+        const row = createChainRow(chain, true);
+        document.getElementById('supported-chains').appendChild(row);
+    });
+
+    // Ensure Ethereum is selected by default
+    setSelectedChain(1);
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(event) {
+        const chainSelectorDropdown = document.getElementById('chain-dropdown');
+        const chainSelectorButton = document.getElementById('chain-selector-button');
+        if (chainSelectorDropdown && !chainSelectorButton.contains(event.target) && !chainSelectorDropdown.contains(event.target)) {
+            chainSelectorDropdown.classList.remove('show');
+        }
+    });
+});
+
+document.getElementById('chain-selector-button').addEventListener('click', () => {
+    document.getElementById('chain-dropdown').classList.toggle('show');
+});

@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/use_account_identifier.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/chain_selector_row.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/wallet_model.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/swap_page.css') }}">
 
     <script src ="{{ url_for('static', filename='js/nav_bar.js') }}"></script>
     <script src ="{{ url_for('static', filename='js/use_account_identifier.js') }}"></script>
@@ -55,6 +56,46 @@
         <!-- Bag Icon Placeholder -->
         <span>Bag Icon</span>
         <div class="counter-dot" id="counter-dot">5</div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Swap Page Content Scoped -->
+        <div class="swap-page">
+            <div class="page-wrapper">
+                <div class="swap-wrapper" id="swap-page">
+                    <div class="swap-form" id="swap-form">
+                        <form>
+                            <div class="loading-wrapper">
+                                <div class="title-column">
+                                    <h2>Swap</h2>
+                                </div>
+                                <div class="input-column">
+                                    <div class="row">
+                                        <div class="module-blob" style="width: 60px;"></div>
+                                        <div class="module-blob" style="width: 100px; border-radius: 16px;"></div>
+                                    </div>
+                                </div>
+                                <div class="output-wrapper">
+                                    <div class="arrow-wrapper">
+                                        <div class="arrow-container">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--neutral3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-down"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+                                        </div>
+                                    </div>
+                                    <div class="input-column">
+                                        <div class="row">
+                                            <div class="module-blob" style="width: 60px;"></div>
+                                            <div class="module-blob" style="width: 100px; border-radius: 16px;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="blob" style="border-radius: 16px;"></div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- New functionality -->
@@ -106,18 +147,6 @@
                 optionWrapper.appendChild(optionCardClickable);
                 optionGrid.appendChild(optionWrapper);
             });
-        });
-
-        document.addEventListener('DOMContentLoaded', function () {
-            const supportedChains = NETWORK_SELECTOR_CHAINS.filter(chain => !TESTNET_CHAIN_IDS.includes(chain));
-
-            supportedChains.forEach(chain => {
-                const row = createChainRow(chain, true);
-                document.getElementById('supported-chains').appendChild(row);
-            });
-
-            // Ensure Ethereum is selected by default
-            setSelectedChain(1);
         });
 
         {# document.getElementById('web3-status').appendChild(Web3Status()); #}

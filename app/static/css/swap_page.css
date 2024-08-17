@@ -1,0 +1,116 @@
+/* Scoped styles for swap page to prevent conflicts */
+.swap-page {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+}
+.swap-page .page-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+.swap-page .swap-wrapper {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+.swap-page .swap-form {
+}
+.swap-page .active {
+    display: block;
+}
+.swap-page .network-alert {
+    background-color: #ffdddd;
+    color: #d8000c;
+    border: 1px solid #d8000c;
+    padding: 10px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+.swap-page .switch-locale-link {
+    text-decoration: none;
+    color: #007bff;
+    margin-top: 20px;
+}
+
+.swap-page .loading-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    justify-content: space-between;
+    padding: 8px;
+    border: 1px solid var(--surface3);
+    border-radius: 16px;
+    background-color: var(--surface1);
+}
+
+:root {
+    --surface1: #f0f0f0; /* Replace with your theme value */
+    --surface2: #e0e0e0; /* Replace with your theme value */
+    --surface3: #d0d0d0; /* Replace with your theme value */
+    --neutral3: #909090; /* Replace with your theme value */
+}
+
+.swap-page .blob {
+    background-color: var(--surface2);
+    border-radius: 4px;
+    height: 56px;
+    width: 100%;
+}
+
+.swap-page .blob[width] {
+    width: attr(width px);
+}
+
+.swap-page .blob[radius] {
+    border-radius: attr(radius px);
+}
+
+.swap-page .module-blob {
+    background-color: var(--surface3);
+    height: 36px;
+}
+
+.swap-page .title-column {
+    padding: 8px;
+}
+
+.swap-page .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.swap-page .input-column {
+    display: flex;
+    flex-flow: column;
+    background-color: var(--surface2);
+    border-radius: 16px;
+    gap: 30px;
+    padding: 48px 12px;
+}
+
+.swap-page .output-wrapper {
+    position: relative;
+}
+
+.swap-page .arrow-wrapper {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+}
+
+.swap-page .arrow-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
