@@ -15,6 +15,52 @@
     <script src ="{{ url_for('static', filename='js/use_account_identifier.js') }}"></script>
     <script src ="{{ url_for('static', filename='js/chain_selector_row.js') }}"></script>
     <script src ="{{ url_for('static', filename='js/wallet_model.js') }}"></script>
+
+    <style>
+        .token-select-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .token-select {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background-color: var(--surface1);
+            border-radius: 16px;
+            padding: 8px 12px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .token-amount-input {
+            width: 100%;
+            font-size: 2rem; /* Increase the font size for larger numbers */
+            padding: 10px;
+            border: none; /* Remove the border to match the background */
+            border-radius: 8px;
+            outline: none;
+            background-color: inherit; /* Match the input background with the swap window background */
+            color: var(--neutral1);
+            text-align: left; /* Align text to the left edge */
+            transition: border-color 0.2s ease;
+        }
+
+        .token-amount-input:focus {
+            border-color: var(--accent1); /* Add a focus border color if needed */
+        }
+
+        .token-amount-input::placeholder {
+            color: var(--neutral3);
+            text-align: left; /* Ensure the placeholder text is also left-aligned */
+        }
+
+        .token-amount-input:invalid {
+            border-color: var(--critical);
+        }
+    </style>
 </head>
 <body>
     <!-- Navbar Component -->
@@ -72,20 +118,63 @@
                                 </div>
                                 <div class="input-column">
                                     <div class="row">
-                                        <div class="module-blob" style="width: 60px;"></div>
-                                        <div class="module-blob" style="width: 100px; border-radius: 16px;"></div>
+                                        <!-- Token Selector and Amount Input -->
+                                        <div class="token-select-wrapper">
+                                            <input
+                                                type="text"
+                                                id="token-amount"
+                                                class="token-amount-input"
+                                                inputmode="decimal"
+                                                autocomplete="off"
+                                                autocorrect="off"
+                                                pattern="^[0-9]*[.,]?[0-9]*$"
+                                                placeholder="0"
+                                                minlength="1"
+                                                maxlength="79"
+                                                spellcheck="false"
+                                                value="">
+                                            <div class="token-select">
+                                                <img id="token-logo" src="/static/images/logos/assets/usdc-logo.png" alt="Token Logo" width="20" height="20">
+                                                <span id="token-symbol">USDC</span>
+                                            </div>
+                                        </div>
+                                        {# <div class="module-blob" style="width: 60px;"></div>
+                                        <div class="module-blob" style="width: 100px; border-radius: 16px;"></div> #}
                                     </div>
                                 </div>
                                 <div class="output-wrapper">
                                     <div class="arrow-wrapper">
                                         <div class="arrow-container">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--neutral3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-down"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--neutral3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-down">
+                                                <line x1="12" y1="5" x2="12" y2="19"/>
+                                                <polyline points="19 12 12 19 5 12"/>
+                                            </svg>
                                         </div>
                                     </div>
                                     <div class="input-column">
                                         <div class="row">
-                                            <div class="module-blob" style="width: 60px;"></div>
-                                            <div class="module-blob" style="width: 100px; border-radius: 16px;"></div>
+                                            <div class="token-select-wrapper">
+                                                <input
+                                                    type="text"
+                                                    id="token-amount-output"
+                                                    class="token-amount-input"
+                                                    inputmode="decimal"
+                                                    autocomplete="off"
+                                                    autocorrect="off"
+                                                    pattern="^[0-9]*[.,]?[0-9]*$"
+                                                    placeholder="0"
+                                                    minlength="1"
+                                                    maxlength="79"
+                                                    spellcheck="false"
+                                                    value=""
+                                                >
+                                                <div class="token-select">
+                                                    <img id="token-logo-output" src="/static/images/logos/assets/eth-logo.png" alt="Token Logo" width="20" height="20">
+                                                    <span id="token-symbol-output">ETH</span>
+                                                </div>
+                                            </div>
+                                            {# <div class="module-blob" style="width: 60px;"></div>
+                                            <div class="module-blob" style="width: 100px; border-radius: 16px;"></div> #}
                                         </div>
                                     </div>
                                 </div>
@@ -157,6 +246,84 @@
         document.addEventListener("DOMContentLoaded", function () {
         const web3StatusContainer = document.getElementById('web3-status');
         web3StatusContainer.appendChild(Web3Status());
+    });
+    document.addEventListener("DOMContentLoaded", function () {;
+        const tokenSymbol = document.getElementById('token-symbol');
+        const tokenLogo = document.getElementById('token-logo');
+        const tokenAmountInput = document.getElementById('token-amount');
+
+        // Handle token amount input
+        tokenAmountInput.addEventListener('input', (event) => {
+            const value = event.target.value;
+            // Logic to handle input value change
+            console.log('Amount input:', value);
+        });
+    });
+    document.addEventListener("DOMContentLoaded", function() {
+        const tokenAmountInput = document.getElementById('token-amount');
+
+        tokenAmountInput.addEventListener('input', (event) => {
+            let value = event.target.value;
+
+            value = value.replace('.', ',');
+
+            // Remove invalid characters
+            value = value.replace(/[^0-9,]/g, '');
+
+            // Ensure only one decimal point
+            const parts = value.split(',');
+            if (parts.length > 2) {
+                value = `${parts[0]}.${parts.slice(1).join('')}`;
+            }
+
+            // Limit decimal places to two
+            if (parts[1] && parts[1].length > 2) {
+                value = `${parts[0]}.${parts[1].slice(0, 2)}`;
+            }
+
+            // Update the input field with the formatted value
+            event.target.value = value;
+        });
+
+        tokenAmountInput.addEventListener('blur', () => {
+            const value = tokenAmountInput.value;
+            if (value === '' || value === '0' || isNaN(parseFloat(value))) {
+                tokenAmountInput.value = '';
+            }
+        });
+    });
+    document.addEventListener("DOMContentLoaded", function() {
+        const tokenAmountOut = document.getElementById('token-amount-output');
+
+        tokenAmountOut.addEventListener('input', (event) => {
+            let value = event.target.value;
+
+            value = value.replace('.', ',');
+
+            // Remove invalid characters
+            value = value.replace(/[^0-9,]/g, '');
+
+            // Ensure only one decimal point
+            const parts = value.split(',');
+            if (parts.length > 2) {
+                value = `${parts[0]}.${parts.slice(1).join('')}`;
+            }
+
+            // Limit decimal places to two
+            if (parts[1] && parts[1].length > 2) {
+                value = `${parts[0]}.${parts[1].slice(0, 2)}`;
+            }
+
+            // Update the input field with the formatted value
+            event.target.value = value;
+        });
+
+        tokenAmountOut.addEventListener('blur', () => {
+            const value = tokenAmountOut.value;
+            if (value === '' || value === '0' || isNaN(parseFloat(value))) {
+                tokenAmountOut.value = '';
+            }
+        });
     });
     </script>
 </body>

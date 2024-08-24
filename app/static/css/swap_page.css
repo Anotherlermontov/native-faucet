@@ -20,6 +20,13 @@
     padding: 20px;
     margin-bottom: 20px;
 }
+
+.swap-wrapper {
+    background-color: var(--surface1); /* Ensure this matches the swap window's background color */
+    padding: 20px;
+    border-radius: 16px;
+}
+
 .swap-page .swap-form {
 }
 .swap-page .active {
