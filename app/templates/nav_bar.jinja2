@@ -17,6 +17,7 @@
     <script src ="{{ url_for('static', filename='js/chain_selector_row.js') }}"></script>
     <script src ="{{ url_for('static', filename='js/wallet_model.js') }}"></script>
     <script src ="{{ url_for('static', filename='js/token_select.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
 </head>
 <body>
     <!-- Navbar Component -->
@@ -201,6 +202,31 @@
     });
     document.addEventListener("DOMContentLoaded", formatAmountInput(6, true));
     document.addEventListener("DOMContentLoaded", formatAmountInput(18, false));
+    </script>
+
+    <script>
+        const web3 = new Web3(new Web3.providers.HttpProvider('https://eth.llamarpc.com'));
+        document.addEventListener('DOMContentLoaded', async function () {
+            const ETH_ADDRESS = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"; // ETH address in Uniswap V2
+            const USDC_ADDRESS = "0xA0b86991c6218b36c1d19D4a2e9EB0cE3606EB48"; // USDC address
+
+            const chainId = 1; // Ethereum mainnet chain ID
+
+            let block = await web3.eth.getBlock('latest');
+
+            // Automatically update converted amount when the input value changes
+            const amountInput = document.getElementById('token-amount');
+            const amountOutput = document.getElementById('token-amount-output');
+
+            async function updateConvertedAmount() {
+                const amount = amountInput.value;
+
+                amountOutput.value = amount;
+            }
+
+            // Add event listeners to update the converted amount
+            amountInput.addEventListener('input', updateConvertedAmount);
+        });
     </script>
 </body>
 </html>
