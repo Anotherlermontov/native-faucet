@@ -78,7 +78,3 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
-
-document.getElementById('chain-selector-button').addEventListener('click', () => {
-    document.getElementById('chain-dropdown').classList.toggle('show');
-});

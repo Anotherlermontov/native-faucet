@@ -1,7 +1,7 @@
-INPUT_AMOUNT_FIELD_MAIN_NUMBERS = '';
-INPUT_AMOUNT_FIELD_DECIMAL_NUMBERS = '';
-OUTPUT_AMOUNT_FIELD_MAIN_NUMBERS = '';
-OUTPUT_AMOUNT_FIELD_DECIMAL_NUMBERS = '';
+let INPUT_AMOUNT_FIELD_MAIN_NUMBERS = '';
+let INPUT_AMOUNT_FIELD_DECIMAL_NUMBERS = '';
+let OUTPUT_AMOUNT_FIELD_MAIN_NUMBERS = '';
+let OUTPUT_AMOUNT_FIELD_DECIMAL_NUMBERS = '';
 
 function formatAmountInput(decimals, isInput) {
     const tokenAmountInput = document.getElementById(isInput === true ? 'token-amount' : 'token-amount-output');

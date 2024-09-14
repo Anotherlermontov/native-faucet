@@ -163,6 +163,38 @@
     </div>
 
     <script>
+        const PAIR_ADDRESS = "0xB4e16d0168e52d35CaCD2c6185b44281Ec28C9Dc";
+        const PAIR_ABI = [
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "getReserves",
+                "outputs": [
+                    {
+                        "internalType": "uint112",
+                        "name": "_reserve0",
+                        "type": "uint112"
+                    },
+                    {
+                        "internalType": "uint112",
+                        "name": "_reserve1",
+                        "type": "uint112"
+                    },
+                    {
+                        "internalType": "uint32",
+                        "name": "_blockTimestampLast",
+                        "type": "uint32"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            }
+        ];
+        const WEB3 = new Web3(new Web3.providers.HttpProvider('https://eth.llamarpc.com'));
+        const PAIR_CONTRACT = new WEB3.eth.Contract(PAIR_ABI, PAIR_ADDRESS);
+        let RESERVE0 = null;
+        let RESERVE1 = null;
         document.addEventListener("DOMContentLoaded", function () {
             const optionGrid = document.querySelector(".option-grid");
 
@@ -197,35 +229,73 @@
             document.getElementById('chain-dropdown').classList.toggle('show');
         });
         document.addEventListener("DOMContentLoaded", function () {
-        const web3StatusContainer = document.getElementById('web3-status');
-        web3StatusContainer.appendChild(Web3Status());
-    });
-    document.addEventListener("DOMContentLoaded", formatAmountInput(6, true));
-    document.addEventListener("DOMContentLoaded", formatAmountInput(18, false));
-    </script>
+            const web3StatusContainer = document.getElementById('web3-status');
+            web3StatusContainer.appendChild(Web3Status());
+        });
+        document.addEventListener("DOMContentLoaded", formatAmountInput(6, true));
+        document.addEventListener("DOMContentLoaded", formatAmountInput(18, false));
 
-    <script>
-        const web3 = new Web3(new Web3.providers.HttpProvider('https://eth.llamarpc.com'));
         document.addEventListener('DOMContentLoaded', async function () {
-            const ETH_ADDRESS = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"; // ETH address in Uniswap V2
-            const USDC_ADDRESS = "0xA0b86991c6218b36c1d19D4a2e9EB0cE3606EB48"; // USDC address
-
-            const chainId = 1; // Ethereum mainnet chain ID
-
-            let block = await web3.eth.getBlock('latest');
+            if (RESERVE0 === null || RESERVE1 === null) {
+                const reserves = await PAIR_CONTRACT.methods.getReserves().call();
+                RESERVE0 = Number(reserves['_reserve0']) / 1e6;
+                RESERVE1 = Number(reserves['_reserve1']) / 1e18;
+            }
 
             // Automatically update converted amount when the input value changes
             const amountInput = document.getElementById('token-amount');
             const amountOutput = document.getElementById('token-amount-output');
 
-            async function updateConvertedAmount() {
-                const amount = amountInput.value;
-
-                amountOutput.value = amount;
+            async function updateConvertedInputAmount() {
+                let ethPrice = RESERVE0 / RESERVE1;
+                let amountOutputValue = amountOutput.value.replace(/,/g, '.');
+                if (amountOutputValue === '') {
+                    amountInput.value = '';
+                }
+                else if (amountOutputValue === '0') {
+                    amountInput.value = '0';
+                }
+                else {
+                    let amount = (parseFloat(amountOutputValue) * ethPrice).toFixed(6);
+                    if (amount == 0) {
+                        amountInput.value = '0';
+                    }
+                    else {
+                        amountInput.value = amount.toString().replace(/\./g, ',');
+                    }
+                }
             }
 
-            // Add event listeners to update the converted amount
-            amountInput.addEventListener('input', updateConvertedAmount);
+            amountOutput.addEventListener('input', updateConvertedInputAmount);
+        });
+
+        document.addEventListener('DOMContentLoaded', async function () {
+            const amountInput = document.getElementById('token-amount');
+            const amountOutput = document.getElementById('token-amount-output');
+
+            async function updateConvertedOutputAmount() {
+                if (RESERVE0 === null || RESERVE1 === null) {
+                    const reserves = await PAIR_CONTRACT.methods.getReserves().call();
+                    RESERVE0 = Number(reserves['_reserve0']) / 1e6;
+                    RESERVE1 = Number(reserves['_reserve1']) / 1e18;
+                }
+                let usdcPrice = RESERVE1 / RESERVE0;
+                let amountInputValue = amountInput.value.replace(/,/g, '.');
+                if (amountInputValue === '') {
+                    amountOutput.value = '';
+                }
+                else {
+                    let amount = (parseFloat(amountInputValue) * usdcPrice).toFixed(18)
+                    if (amount == 0) {
+                        amountOutput.value = '0';
+                    }
+                    else {
+                        amountOutput.value = amount.toString().replace(/\./g, ',');
+                    }
+                }
+            }
+
+            amountInput.addEventListener('input', updateConvertedOutputAmount);
         });
     </script>
 </body>
