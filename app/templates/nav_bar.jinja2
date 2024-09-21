@@ -18,6 +18,91 @@
     <script src ="{{ url_for('static', filename='js/wallet_model.js') }}"></script>
     <script src ="{{ url_for('static', filename='js/token_select.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+
+    <style>
+        .swap-button {
+            background-color: #54c898; /* Green background */
+            border: none;
+            color: white;
+            padding: 12px 20px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: inherit;
+            width: 100%;
+            height: 100%;
+        }
+
+        .swap-button:hover {
+            background-color: #39a176; /* Darker green on hover */
+        }
+
+        /* The modal (background) */
+        .modal2 {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1000; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            background-color: rgba(0, 0, 0, 0.5); /* Black background with transparency */
+        }
+
+        /* Modal content */
+        .modal2-content {
+            background-color: white;
+            margin: 15% auto; /* Center it vertically and horizontally */
+            padding: 20px;
+            border-radius: 8px;
+            width: 80%; /* Could be more or less, depending on screen size */
+            max-width: 500px;
+            text-align: center;
+        }
+
+        /* Close button */
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Email input field */
+        #email-input {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        /* Submit button */
+        .submit-email-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .submit-email-button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
     <!-- Navbar Component -->
@@ -131,7 +216,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="blob" style="border-radius: 16px;"></div>
+                                <div class="blob" style="border-radius: 16px;">
+                                <button id="swap-button" type="button" class="swap-button", onclick="performSwap()">Swap</button>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -161,8 +248,46 @@
             </div>
         </div>
     </div>
+    <div id="modal-message" class="modal2">
+        <div class="modal2-content">
+            <span class="close-button" onclick="closeModal()">&times;</span>
+            <h2>Service Coming Soon!</h2>
+            <p>The project is not ready yet, but we are working hard on it and will launch soon. Leave us your email, and we will contact you as soon as the service is ready.</p>
 
+            <label for="email-input">Your Email:</label>
+            <input type="email" id="email-input" placeholder="Enter your email" required>
+
+            <button class="submit-email-button" onclick="submitEmail()">Submit</button>
+        </div>
+    </div>
     <script>
+        function performSwap() {
+            // Show modal when button is clicked
+            document.getElementById('modal-message').style.display = 'block';
+        }
+
+        function closeModal() {
+            // Close the modal
+            document.getElementById('modal-message').style.display = 'none';
+        }
+
+        function submitEmail() {
+            const email = document.getElementById('email-input').value;
+            if (validateEmail(email)) {
+                alert(`Thank you! We will notify you at ${email} when the service is ready.`);
+                closeModal();
+                // Here, you could also add code to send the email to your backend.
+            } else {
+                alert('Please enter a valid email address.');
+            }
+        }
+
+        // Email validation function
+        function validateEmail(email) {
+            const re = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+            return re.test(String(email).toLowerCase());
+        }
+
         const PAIR_ADDRESS = "0xB4e16d0168e52d35CaCD2c6185b44281Ec28C9Dc";
         const PAIR_ABI = [
             {
@@ -298,5 +423,6 @@
             amountInput.addEventListener('input', updateConvertedOutputAmount);
         });
     </script>
+</div>
 </body>
 </html>
