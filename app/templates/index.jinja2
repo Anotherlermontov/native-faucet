@@ -1,235 +1,254 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Swap Header</title>
-  <style>
-    .row-between {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 12px;
-      padding-right: 4px;
-    }
-    .header-button-container {
-      display: flex;
-      gap: 16px;
-    }
-    .header-button-container.compact {
-      gap: 0;
-    }
-    .swap-header-tab-button {
-      padding: 8px 12px;
-    }
-    .swap-header-tab-button.active {
-      font-weight: bold;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Combined Components</title>
 
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/nav_bar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/use_account_identifier.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/chain_selector_row.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/swap_page.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/token_select.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mail_form.css') }}">
 
-
-
-    .details-container {
-      display: flex;
-      flex-direction: column;
-      padding: 0 12px 8px;
-      gap: 8px;
-    }
-    .styled-alert-triangle {
-      margin-right: 8px;
-      min-width: 24px;
-    }
-    .confirm-button {
-      height: 56px;
-      border: none;
-      background-color: red;
-      color: white;
-      cursor: pointer;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .dropdown-controller-wrapper {
-      display: flex;
-      align-items: center;
-      margin-right: -6px;
-      padding: 0 16px;
-      min-width: fit-content;
-      white-space: nowrap;
-    }
-    .dropdown-button {
-      padding: 0 16px;
-      margin: 4px 0;
-      height: 28px;
-      display: flex;
-      align-items: center;
-      cursor: pointer;
-      background: none;
-      border: none;
-    }
-    .help-link {
-      width: 100%;
-      text-align: center;
-      margin: 16px 0 4px;
-    }
-  </style>
+    <script src ="{{ url_for('static', filename='js/nav_bar.js') }}"></script>
+    <script src ="{{ url_for('static', filename='js/use_account_identifier.js') }}"></script>
+    <script src ="{{ url_for('static', filename='js/chain_selector_row.js') }}"></script>
+    <script src ="{{ url_for('static', filename='js/swap_page.js') }}"></script>
+    <script src ="{{ url_for('static', filename='js/token_select.js') }}"></script>
+    <script src ="{{ url_for('static', filename='js/mail_form.js') }}"></script>
+    <script src ="{{ url_for('static', filename='js/web3.min.js') }}"></script>
 </head>
 <body>
-  <div id="root">
-    <div class="row-between" style="color: #666;">
-      <div class="header-button-container compact">
-        <button class="swap-header-tab-button active" onclick="onTabClick('swap')">
-          <span>Swap</span>
-        </button>
-        <button class="swap-header-tab-button" onclick="onTabClick('limit')">
-          <span>Limit</span>
-        </button>
-        <button class="swap-header-tab-button" onclick="onTabClick('send')" style="display: none;">
-          <span>Send</span>
-        </button>
-        <button class="swap-buy-fiat-button" onclick="triggerBuyFlow()">
-          <span>Buy Fiat</span>
-        </button>
-      </div>
-      <div class="settings-tab" style="display: none;">
-        <!-- Settings Tab content -->
-      </div>
-    </div>
-
-
-
-    <div class="details-container" id="details-container">
-      <!-- Limit or Swap Line Items will be inserted here -->
-    </div>
-    <div id="show-accept-changes" style="display: none;">
-      <div class="row-between">
-        <div class="row-fixed">
-          <svg class="styled-alert-triangle" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path d="M10.29 3.86L1.82 18a1 1 0 0 0 .86 1.5h18.64a1 1 0 0 0 .86-1.5l-8.47-14.14a1 1 0 0 0-1.72 0z"></path>
-            <line x1="12" y1="9" x2="12" y2="13"></line>
-            <line x1="12" y1="17" x2="12.01" y2="17"></line>
-          </svg>
-          <span id="price-updated-text">Price Updated</span>
+    <nav class="nav">
+        <div class="nav-contents">
+            <div class="left">
+                <div>Company Menu</div>
+                <div>Tabs</div>
+            </div>
+            <div class="row">
+                <div>Preferences</div>
+                <div id="chain-selector">
+                    <button id="chain-selector-button">
+                        <img id="chain-logo" src="" alt="Chain Logo" width="20" height="20">
+                    </button>
+                    <div id="chain-dropdown" class="dropdown-content">
+                        <div id="supported-chains"></div>
+                        <div id="unsupported-chains"></div>
+                    </div>
+                </div>
+                <div id="web3-status"></div>
+            </div>
         </div>
-        <button id="accept-button">Accept</button>
-      </div>
+    </nav>
+
+    <div class="container" id="nav-icon" aria-label="Navigation Button" onclick="onclickNavIcon()">
+        <span>Icon</span>
     </div>
-    <div id="auto-row">
-      <button class="confirm-button" id="confirm-swap-button">
-        Confirm Swap
-      </button>
-      <a href="#" class="help-link" id="help-link" style="display: none;">Help Link</a>
+
+    <div class="container" id="bag-icon" onclick="onclickBagIcon()">
+        <span>Bag Icon</span>
+        <div class="counter-dot" id="counter-dot">5</div>
     </div>
-  </div>
 
-  <script>
-    const PathnameToTab = {
-      '/swap': 'swap',
-      '/send': 'send',
-      '/limit': 'limit',
-    };
+    <div class="main-content">
+        <div class="swap-page">
+            <div class="page-wrapper">
+                <div class="swap-wrapper" id="swap-page">
+                    <div class="swap-form" id="swap-form">
+                        <form>
+                            <div class="loading-wrapper">
+                                <div class="title-column">
+                                    <h2>Swap</h2>
+                                </div>
+                                <div class="input-column">
+                                    <div class="row">
+                                        <div class="token-select-wrapper">
+                                            <input
+                                                type="text"
+                                                id="token-amount"
+                                                class="token-amount-input"
+                                                inputmode="decimal"
+                                                autocomplete="off"
+                                                autocorrect="off"
+                                                pattern="^[0-9]*[.,]?[0-9]*$"
+                                                placeholder="0"
+                                                minlength="1"
+                                                maxlength="79"
+                                                spellcheck="false"
+                                                value="">
+                                            <div class="token-select">
+                                                <img id="token-logo" src="/static/images/logos/assets/usdc-logo.png" alt="Token Logo" width="20" height="20">
+                                                <span id="token-symbol">USDC</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="output-wrapper">
+                                    <div class="arrow-wrapper">
+                                        <div class="arrow-container">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--neutral3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-down">
+                                                <line x1="12" y1="5" x2="12" y2="19"/>
+                                                <polyline points="19 12 12 19 5 12"/>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div class="input-column">
+                                        <div class="row">
+                                            <div class="token-select-wrapper">
+                                                <input
+                                                    type="text"
+                                                    id="token-amount-output"
+                                                    class="token-amount-input"
+                                                    inputmode="decimal"
+                                                    autocomplete="off"
+                                                    autocorrect="off"
+                                                    pattern="^[0-9]*[.,]?[0-9]*$"
+                                                    placeholder="0"
+                                                    minlength="1"
+                                                    maxlength="79"
+                                                    spellcheck="false"
+                                                    value=""
+                                                >
+                                                <div class="token-select">
+                                                    <img id="token-logo-output" src="/static/images/logos/assets/eth-logo.png" alt="Token Logo" width="20" height="20">
+                                                    <span id="token-symbol-output">ETH</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="blob" style="border-radius: 16px;">
+                                <button id="swap-button" type="button" class="swap-button", onclick="showMailForm()">Swap</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    let currentTab = 'swap';
-    const isIFramed = () => window.self !== window.top;
+    <div id="mail-form" class="mail-form">
+        <div class="mail-form-content">
+            <span class="mail-form-close-button" onclick="closeMailForm()">&times;</span>
+            <h2>Service Coming Soon!</h2>
+            <p>The project is not ready yet, but we are working hard on it and will launch soon. Leave us your email, and we will contact you as soon as the service is ready.</p>
 
-    function onTabClick(tab) {
-      console.log('Tab clicked:', tab);
-      currentTab = tab;
-      updateTabDisplay();
-    }
+            <label for="email-input">Your Email:</label>
+            <input type="email" id="email-input" placeholder="Enter your email" required>
 
-    function triggerBuyFlow() {
-      console.log('Trigger buy flow');
-    }
+            <button class="submit-email-button" onclick="submitEmail()">Submit</button>
+        </div>
+    </div>
+    <script>
+        const WEB3 = new Web3(new Web3.providers.HttpProvider('https://eth.llamarpc.com'));
+        const PAIR_CONTRACT = new WEB3.eth.Contract(PAIR_ABI, PAIR_ADDRESS);
+        let RESERVE0 = null;
+        let RESERVE1 = null;
+        document.addEventListener("DOMContentLoaded", function () {
+            const optionGrid = document.querySelector(".option-grid");
 
-    function updateTabDisplay() {
-      document.querySelectorAll('.swap-header-tab-button').forEach(button => {
-        button.classList.remove('active');
-      });
-      document.querySelector(`.swap-header-tab-button[onclick="onTabClick('${currentTab}')"]`).classList.add('active');
+            const connectors = [
+                { id: '1', name: 'MetaMask', icon: '/static/images/logos/metamask-icon.svg' },
+            ];
 
-      if (currentTab === 'swap') {
-        document.querySelector('.settings-tab').style.display = 'flex';
-      } else {
-        document.querySelector('.settings-tab').style.display = 'none';
-      }
-    }
+            connectors.forEach(connector => {
+                const optionWrapper = document.createElement("div");
+                optionWrapper.className = `option-container ${isIFramed() ? 'disabled' : ''}`;
 
-    document.addEventListener('DOMContentLoaded', () => {
-      const pathname = window.location.pathname;
-      currentTab = PathnameToTab[pathname] || 'swap';
-      if (pathname === '/buy') {
-        triggerBuyFlow();
-      }
-      updateTabDisplay();
-    });
+                const optionCardClickable = document.createElement("button");
+                optionCardClickable.className = "option-card-clickable";
+                optionCardClickable.onclick = () => connect(connector.id);
+                optionCardClickable.innerHTML = `
+                    <div class="option-card-left">
+                        <div class="icon-wrapper">
+                            <img src="${connector.icon}" alt="${connector.name}" />
+                        </div>
+                        <div class="header-text">${connector.name}</div>
+                    </div>
+                `;
 
+                optionWrapper.appendChild(optionCardClickable);
+                optionGrid.appendChild(optionWrapper);
+            });
+        });
 
+        {# document.getElementById('web3-status').appendChild(Web3Status()); #}
 
-    const isLimitTrade = false; // Change this based on trade type
-    const allowance = { state: 'REQUIRED', needsSetupApproval: true }; // Dummy data
-    const swapErrorMessage = null; // Dummy data
-    const isLoading = false; // Dummy data
-    const trade = {}; // Dummy data
-    const allowedSlippage = 0.5; // Dummy data
-    const priceImpact = null; // Dummy data
-    const fiatValueInput = { data: 100, isLoading: false }; // Dummy data
-    const fiatValueOutput = { data: 120, isLoading: false }; // Dummy data
-    const routerPreference = 'API'; // Dummy data
-    const showAcceptChanges = false; // Dummy data
-    const callToAction = { buttonText: 'Approve and Swap', helpLink: { text: 'Help', url: '#' } }; // Dummy data
+        document.getElementById('chain-selector-button').addEventListener('click', () => {
+            document.getElementById('chain-dropdown').classList.toggle('show');
+        });
+        document.addEventListener("DOMContentLoaded", function () {
+            const web3StatusContainer = document.getElementById('web3-status');
+            web3StatusContainer.appendChild(Web3Status());
+        });
+        document.addEventListener("DOMContentLoaded", formatAmountInput(6, true));
+        document.addEventListener("DOMContentLoaded", formatAmountInput(18, false));
 
-    const detailsContainer = document.getElementById('details-container');
-    const confirmButton = document.getElementById('confirm-swap-button');
-    const helpLink = document.getElementById('help-link');
+        document.addEventListener('DOMContentLoaded', async function () {
+            if (RESERVE0 === null || RESERVE1 === null) {
+                const reserves = await PAIR_CONTRACT.methods.getReserves().call();
+                RESERVE0 = Number(reserves['_reserve0']) / 1e6;
+                RESERVE1 = Number(reserves['_reserve1']) / 1e18;
+            }
 
-    function updateUI() {
-      if (isLimitTrade) {
-        detailsContainer.innerHTML = `
-          <div>Exchange Rate: ...</div>
-          <div>Expiry: ...</div>
-          <div>Swap Fee: ...</div>
-          <div>Network Cost: ...</div>
-        `;
-      } else {
-        detailsContainer.innerHTML = `
-          <button class="dropdown-button" onclick="toggleShowMore()">Show More</button>
-          <div>Exchange Rate: ...</div>
-          <div id="more-details" style="display: none;">
-            <div>Price Impact: ...</div>
-            <div>Max Slippage: ...</div>
-            <div>Minimum Output: ...</div>
-            <div>Maximum Input: ...</div>
-          </div>
-          <div>Input Token Fee on Transfer: ...</div>
-          <div>Output Token Fee on Transfer: ...</div>
-          <div>Swap Fee: ...</div>
-          <div>Network Cost: ...</div>
-        `;
-      }
+            const amountInput = document.getElementById('token-amount');
+            const amountOutput = document.getElementById('token-amount-output');
 
-      confirmButton.innerHTML = isLoading ? '<span>Loading...</span>' : `<span>${callToAction.buttonText}</span>`;
-      if (callToAction.helpLink) {
-        helpLink.style.display = 'block';
-        helpLink.href = callToAction.helpLink.url;
-        helpLink.innerHTML = callToAction.helpLink.text;
-      } else {
-        helpLink.style.display = 'none';
-      }
-    }
+            async function updateConvertedInputAmount() {
+                let ethPrice = RESERVE0 / RESERVE1;
+                let amountOutputValue = amountOutput.value.replace(/,/g, '.');
+                if (amountOutputValue === '') {
+                    amountInput.value = '';
+                }
+                else if (amountOutputValue === '0') {
+                    amountInput.value = '0';
+                }
+                else {
+                    let amount = (parseFloat(amountOutputValue) * ethPrice).toFixed(6);
+                    if (amount == 0) {
+                        amountInput.value = '0';
+                    }
+                    else {
+                        amountInput.value = amount.toString().replace(/\./g, ',');
+                    }
+                }
+            }
 
-    function toggleShowMore() {
-      const moreDetails = document.getElementById('more-details');
-      moreDetails.style.display = moreDetails.style.display === 'none' ? 'block' : 'none';
-    }
+            amountOutput.addEventListener('input', updateConvertedInputAmount);
+        });
 
-    document.addEventListener('DOMContentLoaded', () => {
-      updateUI();
-    });
+        document.addEventListener('DOMContentLoaded', async function () {
+            const amountInput = document.getElementById('token-amount');
+            const amountOutput = document.getElementById('token-amount-output');
 
-    confirmButton.addEventListener('click', () => {
-      console.log('Confirm Swap clicked');
-    });
-  </script>
+            async function updateConvertedOutputAmount() {
+                if (RESERVE0 === null || RESERVE1 === null) {
+                    const reserves = await PAIR_CONTRACT.methods.getReserves().call();
+                    RESERVE0 = Number(reserves['_reserve0']) / 1e6;
+                    RESERVE1 = Number(reserves['_reserve1']) / 1e18;
+                }
+                let usdcPrice = RESERVE1 / RESERVE0;
+                let amountInputValue = amountInput.value.replace(/,/g, '.');
+                if (amountInputValue === '') {
+                    amountOutput.value = '';
+                }
+                else {
+                    let amount = (parseFloat(amountInputValue) * usdcPrice).toFixed(18)
+                    if (amount == 0) {
+                        amountOutput.value = '0';
+                    }
+                    else {
+                        amountOutput.value = amount.toString().replace(/\./g, ',');
+                    }
+                }
+            }
+
+            amountInput.addEventListener('input', updateConvertedOutputAmount);
+        });
+    </script>
+</div>
 </body>
 </html>

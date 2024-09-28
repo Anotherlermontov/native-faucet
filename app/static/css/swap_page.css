@@ -1,4 +1,3 @@
-/* Scoped styles for swap page to prevent conflicts */
 .swap-page {
     font-family: Arial, sans-serif;
     background-color: #f0f0f0;
@@ -22,7 +21,7 @@
 }
 
 .swap-wrapper {
-    background-color: var(--surface1); /* Ensure this matches the swap window's background color */
+    background-color: var(--surface1);
     padding: 20px;
     border-radius: 16px;
 }
@@ -60,10 +59,10 @@
 }
 
 :root {
-    --surface1: #f0f0f0; /* Replace with your theme value */
-    --surface2: #e0e0e0; /* Replace with your theme value */
-    --surface3: #d0d0d0; /* Replace with your theme value */
-    --neutral3: #909090; /* Replace with your theme value */
+    --surface1: #f0f0f0;
+    --surface2: #e0e0e0;
+    --surface3: #d0d0d0;
+    --neutral3: #909090;
 }
 
 .swap-page .blob {
@@ -120,4 +119,22 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.swap-button {
+    background-color: #54c898;
+    border: none;
+    color: white;
+    padding: 12px 20px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: inherit;
+    width: 100%;
+    height: 100%;
+}
+
+.swap-button:hover {
+    background-color: #39a176;
 }

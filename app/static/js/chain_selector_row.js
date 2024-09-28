@@ -11,7 +11,9 @@ const account = {
 const CHAIN_ID_TO_LOGO_FILENAME = {
     1: "ethereum-logo",
 }
-// const theme = { accent1: '#ff0000', neutral2: '#888888' };
+const CHAIN_ID_TO_NAME = {
+    1: "Ethereum",
+}
 const multichainUXEnabled = true;
 const swapChainId = 1;
 const chainId = multichainUXEnabled ? swapChainId : account.chainId;
@@ -23,15 +25,13 @@ function createChainRow(chain, isSupported) {
     row.className = `chain-row ${isSupported ? '' : 'disabled'}`;
     row.innerHTML = `
         <img src="/static/images/logos/${CHAIN_ID_TO_LOGO_FILENAME[chain]}.png" alt="Chain Logo" width="20" height="20" style="margin-right: 12px;">
-        <div class="label">Chain ${chain}</div>
+        <div class="label">${CHAIN_ID_TO_NAME[chain]}</div>
         <div class="status">${isSupported ? '' : '<div class="caption-text">Unsupported</div>'}</div>
     `;
 
-    // Default select Ethereum chain
     if (chain === 1 && isSupported) {
         row.classList.add('selected');
         console.log(`Default selected chain: ${chain}`);
-        // Set chain as default selection in your application
         setSelectedChain(chain);
     }
 
@@ -49,13 +49,10 @@ function createChainRow(chain, isSupported) {
 }
 
 function setSelectedChain(chainId) {
-    // Store the selected chain ID globally or in the appropriate state
     account.chainId = chainId;
 
-    // Update any necessary UI components
     const chainLogo = document.getElementById('chain-logo');
     chainLogo.src = `/static/images/logos/${CHAIN_ID_TO_LOGO_FILENAME[chainId]}.png`;
-    console.log(`Chain set to: ${chainId}`);
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -66,10 +63,8 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('supported-chains').appendChild(row);
     });
 
-    // Ensure Ethereum is selected by default
     setSelectedChain(1);
 
-    // Close dropdown when clicking outside
     document.addEventListener('click', function(event) {
         const chainSelectorDropdown = document.getElementById('chain-dropdown');
         const chainSelectorButton = document.getElementById('chain-selector-button');

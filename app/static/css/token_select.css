@@ -18,24 +18,24 @@
 
 .token-amount-input {
     width: 100%;
-    font-size: 2rem; /* Increase the font size for larger numbers */
+    font-size: 2rem;
     padding: 10px;
-    border: none; /* Remove the border to match the background */
+    border: none;
     border-radius: 8px;
     outline: none;
-    background-color: inherit; /* Match the input background with the swap window background */
+    background-color: inherit;
     color: var(--neutral1);
-    text-align: left; /* Align text to the left edge */
+    text-align: left;
     transition: border-color 0.2s ease;
 }
 
 .token-amount-input:focus {
-    border-color: var(--accent1); /* Add a focus border color if needed */
+    border-color: var(--accent1);
 }
 
 .token-amount-input::placeholder {
     color: var(--neutral3);
-    text-align: left; /* Ensure the placeholder text is also left-aligned */
+    text-align: left;
 }
 
 .token-amount-input:invalid {

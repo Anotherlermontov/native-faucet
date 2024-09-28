@@ -51,7 +51,7 @@
     transform: translateY(-1px) translateX(4px);
 }
 .counter-dot {
-    background-color: red; /* Example color */
+    background-color: red;
     border-radius: 100px;
     color: white;
     font-size: 10px;

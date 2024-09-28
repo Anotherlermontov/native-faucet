@@ -12,17 +12,14 @@ function formatAmountInput(decimals, isInput) {
 
         value = value.replace('.', ',');
 
-        // Remove invalid characters
         value = value.replace(/[^0-9,]/g, '');
 
-        // Ensure only one decimal point
         let parts = value.split(',');
         if (parts.length > 2) {
             parts = [previousMainNumbers, previousDecimalsNumbers]
             value = `${parts[0]},${parts[1]}`;
         }
 
-        // Limit decimal
         if (parts[1] && parts[1].length > decimals) {
             console.log(previousDecimalsNumbers.length - parts[1].length, previousDecimalsNumbers.length - parts[1].length === 1);
             if (parts[1].length - previousDecimalsNumbers.length === 1) {
@@ -34,7 +31,6 @@ function formatAmountInput(decimals, isInput) {
             }
         }
 
-        // Update the input field with the formatted value
         event.target.value = value;
         if (isInput === true) {
             INPUT_AMOUNT_FIELD_MAIN_NUMBERS = parts[0];
