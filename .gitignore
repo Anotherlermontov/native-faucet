@@ -13,3 +13,6 @@ __pycache__/
 .envrc
 
 .data
+
+# Database files
+*.db

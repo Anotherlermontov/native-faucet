@@ -17,4 +17,4 @@ class Event(BaseDbModel):
     __tablename__ = 'events'
     ip_address: Mapped[String] = mapped_column(String, nullable=True)
     received_at: Mapped[DateTime] = mapped_column(DateTime(timezone=True))
-    event_name = Mapped[String] = mapped_column(String, nullable=True)
+    event_name: Mapped[String] = mapped_column(String, nullable=True)

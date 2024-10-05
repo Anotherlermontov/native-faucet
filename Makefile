@@ -4,3 +4,9 @@ lock:
 
 install-dev:
 	pip-sync requirements.txt requirements_dev.txt --pip-args '--no-deps'
+
+migrate:
+	alembic --config ./alembic/alembic.ini upgrade head
+
+makemigrations:
+	alembic --config ./alembic/alembic.ini revision --autogenerate
