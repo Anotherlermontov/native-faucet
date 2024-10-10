@@ -37,7 +37,7 @@ function createChainRow(chain, isSupported) {
 
     row.addEventListener('click', () => {
         if (isSupported) {
-            console.log(`Selected chain: ${chain}`);
+            sendEvent(`selected_chain_${chain}`);
             setSelectedChain(chain);
             document.querySelectorAll('.chain-row').forEach(row => row.classList.remove('selected'));
             row.classList.add('selected');

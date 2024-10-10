@@ -1,14 +1,15 @@
-function showMailForm() {
+function showMailForm(eventName) {
+    sendEvent(eventName);
     document.getElementById('mail-form').style.display = 'block';
 }
 
 function closeMailForm() {
+    sendEvent('close_mail_form');
     document.getElementById('mail-form').style.display = 'none';
 }
 
 async function submitEmail() {
     const email = document.getElementById('email-input').value;
-    console.log('Email:', email);
     await fetch('/submit-email', {
         method: 'POST',
         headers: {

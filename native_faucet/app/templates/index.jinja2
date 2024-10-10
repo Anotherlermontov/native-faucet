@@ -18,6 +18,7 @@
     <script src ="{{ url_for('static', filename='js/swap_page.js') }}"></script>
     <script src ="{{ url_for('static', filename='js/token_select.js') }}"></script>
     <script src ="{{ url_for('static', filename='js/mail_form.js') }}"></script>
+    <script src ="{{ url_for('static', filename='js/events.js') }}"></script>
     <script src ="{{ url_for('static', filename='js/web3.min.js') }}"></script>
 </head>
 <body>
@@ -120,7 +121,7 @@
                                     </div>
                                 </div>
                                 <div class="blob" style="border-radius: 16px;">
-                                <button id="swap-button" type="button" class="swap-button", onclick="showMailForm()">Swap</button>
+                                <button id="swap-button" type="button" class="swap-button", onclick="showMailForm('swap_clicked')">Swap</button>
                                 </div>
                             </div>
                         </form>
@@ -143,6 +144,7 @@
         </div>
     </div>
     <script>
+        sendEvent('open_page');
         const WEB3 = new Web3(new Web3.providers.HttpProvider('https://eth.llamarpc.com'));
         const PAIR_CONTRACT = new WEB3.eth.Contract(PAIR_ABI, PAIR_ADDRESS);
         let RESERVE0 = null;
@@ -178,6 +180,7 @@
         {# document.getElementById('web3-status').appendChild(Web3Status()); #}
 
         document.getElementById('chain-selector-button').addEventListener('click', () => {
+            sendEvent('chain_selector_open');
             document.getElementById('chain-dropdown').classList.toggle('show');
         });
         document.addEventListener("DOMContentLoaded", function () {

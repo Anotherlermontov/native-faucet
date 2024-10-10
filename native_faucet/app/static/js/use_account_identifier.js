@@ -1,11 +1,12 @@
+function showMailFormWallet() {
+    showMailForm('connect_wallet_clicked');
+}
+
 function Web3Status() {
     const connectWrapper = document.createElement('div');
     connectWrapper.classList.add('web3-status-connect-wrapper');
     connectWrapper.tabIndex = 0;
-    connectWrapper.onclick = showMailForm;
-    connectWrapper.onkeypress = (e) => {
-        if (e.key === 'Enter') showMailForm();
-    };
+    connectWrapper.onclick = showMailFormWallet;
 
     const connectButton = document.createElement('button');
     connectButton.classList.add('styled-connect-button');
