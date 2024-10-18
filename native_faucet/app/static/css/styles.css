@@ -1,8 +1,10 @@
 :root {
     --primary-cyan: #00CFC1;
     --secondary-cyan: #008B7F;
+    --darker-cyan: #00766c;
     --background-dark: #121212;
     --background-secondary: #1E1E1E;
+    --light-grey: #D1D1D1;
     --text-primary: #E0E0E0;
     --text-secondary: #B0B0B0;
     --error-red: #FF6B6B;
@@ -11,7 +13,16 @@
 body {
     background-color: var(--background-dark);
     color: var(--text-primary);
-    font-family: Arial, sans-serif;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+}
+
+h1, h2, h3 {
+    font-weight: 500;
+}
+
+p, label, button {
+    font-weight: 400;
 }
 
 /* nav_bar */
@@ -27,7 +38,8 @@ body {
     width: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-between;
+    padding: 10px;
 }
 .left {
     width: 100%;
@@ -81,6 +93,10 @@ body {
     right: 0px;
     text-align: center;
     top: 4px;
+}
+
+.nav-bar-text {
+    color: var(--light-grey);
 }
 
 /* chain_selector_row */
@@ -201,13 +217,14 @@ body {
 
 .submit-email-button {
     background-color: var(--primary-cyan);
-    color: white;
+    color: var(--light-grey);
     border: none;
     padding: 10px 20px;
     text-align: center;
     border-radius: 16px;
     cursor: pointer;
     font-size: 16px;
+    font-weight: 700;
     margin-top: 10px;
 }
 
@@ -221,11 +238,16 @@ body {
 
 /* swap_page */
 .swap-page {
-    font-family: Arial, sans-serif;
+    /* font-family: Arial, sans-serif; */
     background-color: var(--background-dark);
     margin: 0;
     padding: 0;
 }
+
+.swap-page-header {
+    color: var(--light-grey);
+}
+
 .swap-page .page-wrapper {
     display: flex;
     flex-direction: column;
@@ -324,6 +346,7 @@ body {
     border-radius: 16px;
     gap: 30px;
     padding: 48px 12px;
+    background-color: var(--background-dark);
 }
 
 .swap-page .output-wrapper {
@@ -346,11 +369,12 @@ body {
 .swap-button {
     background-color: var(--primary-cyan);
     border: none;
-    color: white;
+    color: var(--light-grey);
     padding: 12px 20px;
     text-align: center;
     text-decoration: none;
     font-size: 16px;
+    font-weight: 700;
     cursor: pointer;
     border-radius: inherit;
     width: 100%;
@@ -367,7 +391,7 @@ body {
     align-items: center;
     gap: 10px;
     width: 100%;
-    background-color: var(--background-secondary);
+    background-color: var(--background-dark);
 }
 
 .token-select {
@@ -379,7 +403,7 @@ body {
     padding: 8px 12px;
     cursor: pointer;
     position: relative;
-    background-color: var(--background-dark);
+    background-color: var(--background-secondary);
     color: var(--primary-cyan);
 }
 
@@ -414,7 +438,7 @@ body {
     display: flex;
     width: 100%;
     align-items: center;
-    padding: 0.5rem 0.25rem;
+    padding: 8px;
     border-radius: 9999px;
     cursor: pointer;
     user-select: none;
@@ -463,13 +487,17 @@ body {
 .styled-connect-button {
     background-color: transparent;
     border: none;
-    border-top-left-radius: 9999px;
-    border-bottom-left-radius: 9999px;
+    border-radius: 9999px;
     cursor: pointer;
     font-weight: 535;
     font-size: 16px;
     padding: 10px 12px;
-    color: inherit;
+    color: var(--light-grey);
+    background-color: var(--secondary-cyan);
+}
+
+.styled-connect-button:hover {
+    background-color: var(--darker-cyan);
 }
 
 .disconnect-button {
@@ -495,8 +523,6 @@ body {
     border: 1px solid var(--surface1);
 }
 
-.web3-status-connected:hover,
-.web3-status-connected:focus {
+.web3-status-connected:hover {
     background-color: var(--secondary-cyan);
-    border: 1px solid darken(var(--surface3), 10%);
 }

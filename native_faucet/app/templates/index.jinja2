@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/token_select.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/mail_form.css') }}"> #}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 
     <script src ="{{ url_for('static', filename='js/nav_bar.js') }}"></script>
     <script src ="{{ url_for('static', filename='js/use_account_identifier.js') }}"></script>
@@ -26,11 +27,11 @@
     <nav class="nav">
         <div class="nav-contents">
             <div class="left">
-                <div>Company Menu</div>
-                <div>Tabs</div>
+                <div class="nav-bar-text">Company Menu</div>
+                <div class="nav-bar-text">Tabs</div>
             </div>
             <div class="row">
-                <div>Preferences</div>
+                <div class="nav-bar-text">Preferences</div>
                 <div id="chain-selector">
                     <button id="chain-selector-button">
                         <img id="chain-logo" src="" alt="Chain Logo" width="20" height="20">
@@ -62,7 +63,7 @@
                         <form>
                             <div class="loading-wrapper">
                                 <div class="title-column">
-                                    <h2>Swap</h2>
+                                    <h2 class="swap-page-header">Swap</h2>
                                 </div>
                                 <div class="input-column">
                                     <div class="row">
